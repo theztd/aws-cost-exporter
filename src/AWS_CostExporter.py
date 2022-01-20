@@ -1,5 +1,6 @@
 try:
     import boto3
+    import botocore
 
 
 except ImportError as err:
@@ -18,7 +19,7 @@ class AWS_CostExporter():
                 aws_secret_access_key=secret_access_key
             )
         
-        except IOError as err:
+        except botocore.exceptions.NoCredentialsError as err:
             print(err)
             print("...")
             print("Please chack accaee policy in AWS IAM. Working example of IAM policy is in README.md")
