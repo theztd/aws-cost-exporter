@@ -16,7 +16,14 @@ if __name__ == '__main__':
             secret_access_key=getenv('AWS_SECRET_ACCESS_KEY')
     )
 
-    for m in aws.getMetricsGroupByTags(tag_name=group_by_tag, date_start='2022-01-19', date_end='2022-01-20'):
+    date_start = datetime.today() - timedelta(days=2)
+    date_end = datetime.today() - timedelta(days=1)
+
+    for m in aws.getMetricsGroupByTags(
+                    tag_name=group_by_tag, \
+                    date_start=date_start.strftime('%Y-%m-%d'), 
+                    date_end=date_end.strftime('%Y-%m-%d')
+                    ):
         tag = m['Keys'][0].split('$')[1]
         if tag != "":
             value = m['Metrics']['BlendedCost']['Amount']
