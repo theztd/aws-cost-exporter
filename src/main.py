@@ -24,7 +24,10 @@ if __name__ == '__main__':
                     date_start=date_start.strftime('%Y-%m-%d'), 
                     date_end=date_end.strftime('%Y-%m-%d')
                     ):
-        tag = m['Keys'][0].split('$')[1]
-        if tag != "":
-            value = m['Metrics']['BlendedCost']['Amount']
-            print(f'aws_daily_cost_per_tag_in_usd{{group_by="{group_by_tag}", tag="{tag}"}} {value}')
+	
+        _tag = m['Keys'][0].split('$')[1]
+        tag = "not-tagged" if _tag == "" else _tag
+        # should not be negative
+        value = m['Metrics']['BlendedCost']['Amount'].replace("-","")
+        
+        print(f'aws_daily_cost_per_tag_in_usd{{group_by="{group_by_tag}", tag="{tag}"}} {value}')
